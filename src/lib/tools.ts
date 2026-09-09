@@ -47,4 +47,6 @@ export const siteConfig = {
    * TODO: 도메인 이메일(예: contact@richmoney-maker.kr)이 준비되면 이 값만 바꾸면 됩니다.
    */
   contactEmail: "contact@richmoney-maker.kr",
+  /** Google Analytics 4 측정 ID */
+  gaMeasurementId: "G-FK11LNQ1C9",
 };
