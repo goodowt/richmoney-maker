@@ -35,6 +35,12 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} | 연봉·퇴직금·4대보험 계산기`,
     description: siteConfig.description,
   },
+  verification: {
+    // 네이버 서치어드바이저 소유확인용 메타태그 (HTML 태그 방식, 1년마다 재인증 필요)
+    other: {
+      "naver-site-verification": "230149c9360188e976beb24dbe1fc14a58adc870",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
