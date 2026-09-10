@@ -5,7 +5,7 @@
  */
 export const adSlots = {
   /** 계산 결과 바로 아래 (사용자가 결과를 확인한 직후, 체류 시간이 가장 높은 지점) */
-  afterResult: "",
+  afterResult: "3563585845",
   /** FAQ 다음, 푸터 위 (콘텐츠를 끝까지 읽은 고관여 사용자를 잡는 지점) */
-  pageBottom: "3563585845",
+  pageBottom: "3512826409",
 } as const;
