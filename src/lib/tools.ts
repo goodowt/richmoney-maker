@@ -5,7 +5,8 @@ export type Tool = {
     | "insurance"
     | "minimum-wage"
     | "weekly-holiday-pay"
-    | "annual-leave";
+    | "annual-leave"
+    | "freelance-tax";
   title: string;
   shortTitle: string;
   description: string;
@@ -60,6 +61,14 @@ export const tools: Tool[] = [
     description:
       "입사일과 월급, 사용한 연차일수를 입력하면 발생 연차일수와 미사용 연차수당을 계산합니다.",
     emoji: "🌴",
+  },
+  {
+    slug: "freelance-tax",
+    title: "프리랜서 3.3% 원천징수 계산기",
+    shortTitle: "프리랜서 3.3% 계산기",
+    description:
+      "세전 계약금액 또는 실수령액을 입력하면 프리랜서(사업소득) 3.3% 원천징수세액과 실수령액을 계산합니다.",
+    emoji: "🧾",
   },
 ];
 

@@ -58,6 +58,15 @@ export const MINIMUM_WAGE_2026 = {
   standardMonthlyHours: 209,
 } as const;
 
+/**
+ * 프리랜서(사업소득) 원천징수세율. 소득세법 제129조 제1항 제2호에 따라
+ * 인적용역 사업소득 지급액의 3%를 소득세로 원천징수하고, 지방소득세는
+ * 소득세의 10%(=지급액의 0.3%)를 더해 원천징수합니다(지방세법 제103조의13).
+ * 소득세 3% + 지방소득세 0.3% = 총 3.3%로 흔히 "프리랜서 3.3%"라고 부릅니다.
+ * 지방소득세율은 근로소득 계산과 동일하게 INCOME_TAX_CONSTANTS.localTaxRate(10%)를 사용합니다.
+ */
+export const FREELANCE_WITHHOLDING_INCOME_TAX_RATE = 0.03;
+
 export const COMPANY_SIZE_OPTIONS: { value: CompanySize; label: string }[] = [
   { value: "under150", label: "상시 150인 미만" },
   { value: "preferred150Plus", label: "150인 이상 (우선지원대상기업)" },
