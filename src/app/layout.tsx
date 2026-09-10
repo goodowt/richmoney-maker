@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { GoogleAnalytics } from "@/components/google-analytics";
+import { GoogleAdsense } from "@/components/google-adsense";
 import { siteConfig } from "@/lib/tools";
 import "./globals.css";
 
@@ -37,9 +38,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   verification: {
-    // 네이버 서치어드바이저 소유확인용 메타태그 (HTML 태그 방식, 1년마다 재인증 필요)
     other: {
+      // 네이버 서치어드바이저 소유확인용 메타태그 (HTML 태그 방식, 1년마다 재인증 필요)
       "naver-site-verification": "230149c9360188e976beb24dbe1fc14a58adc870",
+      // 구글 애드센스 사이트 소유확인용 메타태그
+      "google-adsense-account": siteConfig.adsensePublisherId,
     },
   },
 };
@@ -52,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <GoogleAnalytics />
+        <GoogleAdsense />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

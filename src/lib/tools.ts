@@ -49,4 +49,6 @@ export const siteConfig = {
   contactEmail: "contact@richmoney-maker.kr",
   /** Google Analytics 4 측정 ID */
   gaMeasurementId: "G-FK11LNQ1C9",
+  /** Google 애드센스 게시자 ID */
+  adsensePublisherId: "ca-pub-4652077022263362",
 };
