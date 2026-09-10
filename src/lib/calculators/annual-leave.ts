@@ -75,8 +75,9 @@ export function calculateAnnualLeave(
 ): AnnualLeaveCalculatorResult {
   const hireDate = new Date(`${input.hireDate}T00:00:00`);
   const referenceDate = new Date(`${input.referenceDate}T00:00:00`);
+  const hasValidDates = !Number.isNaN(hireDate.getTime()) && !Number.isNaN(referenceDate.getTime());
 
-  const totalServiceMonths = monthsElapsed(hireDate, referenceDate);
+  const totalServiceMonths = hasValidDates ? monthsElapsed(hireDate, referenceDate) : 0;
   const serviceYearsLabel = {
     years: Math.floor(totalServiceMonths / 12),
     months: totalServiceMonths % 12,

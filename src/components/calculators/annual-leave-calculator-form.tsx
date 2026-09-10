@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { calculateAnnualLeave } from "@/lib/calculators/annual-leave";
 import { formatWon } from "@/lib/format";
@@ -75,11 +75,18 @@ function DateField({
 
 export function AnnualLeaveCalculatorForm() {
   const [hireDate, setHireDate] = useState("2023-09-11");
-  const [referenceDate, setReferenceDate] = useState(todayString());
+  // "오늘" 날짜는 서버(빌드 시점)와 클라이언트(접속 시점)의 시간대·시각이 달라
+  // 하이드레이션 불일치를 일으킬 수 있어, 서버와 동일한 빈 값으로 시작한 뒤
+  // 마운트 후에만 실제 오늘 날짜로 채웁니다.
+  const [referenceDate, setReferenceDate] = useState("");
   const [monthlySalary, setMonthlySalary] = useState(3_000_000);
   const [dailyWorkHours, setDailyWorkHours] = useState(8);
   const [weeklyWorkDays, setWeeklyWorkDays] = useState(5);
   const [usedLeaveDays, setUsedLeaveDays] = useState(0);
+
+  useEffect(() => {
+    setReferenceDate(todayString());
+  }, []);
 
   const result = useMemo(
     () =>
