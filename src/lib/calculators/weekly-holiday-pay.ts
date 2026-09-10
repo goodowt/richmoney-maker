@@ -10,6 +10,32 @@ export function calculateWeeklyHolidayHours(weeklyWorkHours: number): number {
   return weeklyWorkHours >= 15 ? Math.min((weeklyWorkHours / 40) * 8, 8) : 0;
 }
 
+export type MonthlyPaidHours = {
+  weeklyWorkHours: number;
+  weeklyHolidayHours: number;
+  /** 주휴 포함 유급 근로시간(주) */
+  weeklyPaidHours: number;
+  /** 월 환산 유급 근로시간(주휴 포함). 주 40시간 기준 209시간 */
+  monthlyPaidHours: number;
+};
+
+/**
+ * 하루 근무시간·주 근무일수로 "월 환산 유급 근로시간"(주휴시간 포함)을 계산합니다.
+ * 최저임금 계산기의 월급 환산, 연차수당 계산기의 통상시급 환산(월급 ÷ 월 소정근로시간)에
+ * 공통으로 쓰이는 값이라 여기서 한 번만 계산하도록 분리했습니다.
+ */
+export function calculateMonthlyPaidHours(
+  dailyWorkHours: number,
+  weeklyWorkDays: number
+): MonthlyPaidHours {
+  const weeklyWorkHours = Math.max(dailyWorkHours, 0) * Math.max(weeklyWorkDays, 0);
+  const weeklyHolidayHours = calculateWeeklyHolidayHours(weeklyWorkHours);
+  const weeklyPaidHours = weeklyWorkHours + weeklyHolidayHours;
+  const monthlyPaidHours = Math.round(weeklyPaidHours * WEEKS_PER_MONTH);
+
+  return { weeklyWorkHours, weeklyHolidayHours, weeklyPaidHours, monthlyPaidHours };
+}
+
 export type WeeklyHolidayPayInput = {
   /** 시급(원) */
   hourlyWage: number;

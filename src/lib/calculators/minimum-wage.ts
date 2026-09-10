@@ -1,5 +1,5 @@
 import { MINIMUM_WAGE_2026 } from "./rates";
-import { calculateWeeklyHolidayHours } from "./weekly-holiday-pay";
+import { calculateMonthlyPaidHours } from "./weekly-holiday-pay";
 
 export type MinimumWageCalculatorInput = {
   /** 시급(원) */
@@ -29,8 +29,6 @@ export type MinimumWageCalculatorResult = {
   monthlyShortfall: number;
 };
 
-const WEEKS_PER_MONTH = 365 / 7 / 12; // ≈ 4.345
-
 /**
  * 시급을 입력하면 주휴수당을 포함한 월 환산 급여를 계산하고,
  * 2026년 최저임금(시간급 10,320원) 대비 위반 여부를 확인합니다.
@@ -45,12 +43,8 @@ const WEEKS_PER_MONTH = 365 / 7 / 12; // ≈ 4.345
 export function calculateMinimumWage(
   input: MinimumWageCalculatorInput
 ): MinimumWageCalculatorResult {
-  const weeklyWorkHours = Math.max(input.dailyWorkHours, 0) * Math.max(input.weeklyWorkDays, 0);
-
-  const weeklyHolidayHours = calculateWeeklyHolidayHours(weeklyWorkHours);
-
-  const weeklyPaidHours = weeklyWorkHours + weeklyHolidayHours;
-  const monthlyPaidHours = Math.round(weeklyPaidHours * WEEKS_PER_MONTH);
+  const { weeklyWorkHours, weeklyHolidayHours, weeklyPaidHours, monthlyPaidHours } =
+    calculateMonthlyPaidHours(input.dailyWorkHours, input.weeklyWorkDays);
 
   const hourlyWage = Math.max(input.hourlyWage, 0);
   const monthlyWage = hourlyWage * monthlyPaidHours;

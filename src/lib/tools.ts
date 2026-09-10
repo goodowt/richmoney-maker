@@ -1,5 +1,11 @@
 export type Tool = {
-  slug: "salary" | "severance" | "insurance" | "minimum-wage" | "weekly-holiday-pay";
+  slug:
+    | "salary"
+    | "severance"
+    | "insurance"
+    | "minimum-wage"
+    | "weekly-holiday-pay"
+    | "annual-leave";
   title: string;
   shortTitle: string;
   description: string;
@@ -46,6 +52,14 @@ export const tools: Tool[] = [
     description:
       "시급과 근무일수·개근 여부를 입력하면 1주치 주휴수당과 월·연 환산 금액을 계산합니다.",
     emoji: "🛌",
+  },
+  {
+    slug: "annual-leave",
+    title: "연차수당 계산기",
+    shortTitle: "연차수당 계산기",
+    description:
+      "입사일과 월급, 사용한 연차일수를 입력하면 발생 연차일수와 미사용 연차수당을 계산합니다.",
+    emoji: "🌴",
   },
 ];
 
