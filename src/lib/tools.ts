@@ -1,5 +1,5 @@
 export type Tool = {
-  slug: "salary" | "severance" | "insurance";
+  slug: "salary" | "severance" | "insurance" | "minimum-wage";
   title: string;
   shortTitle: string;
   description: string;
@@ -30,6 +30,14 @@ export const tools: Tool[] = [
     description:
       "국민연금·건강보험·장기요양·고용보험의 근로자·사업주 부담액을 각각 계산합니다.",
     emoji: "🏥",
+  },
+  {
+    slug: "minimum-wage",
+    title: "최저임금 계산기",
+    shortTitle: "최저임금 계산기",
+    description:
+      "시급을 입력하면 주휴수당을 포함한 월급을 계산하고, 2026년 최저임금 위반 여부를 확인합니다.",
+    emoji: "⏱️",
   },
 ];
 

@@ -46,6 +46,18 @@ export const INSURANCE_RATES_2026 = {
 
 export type CompanySize = keyof typeof INSURANCE_RATES_2026.employmentInsurance.employerStabilityRateByCompanySize;
 
+/**
+ * 2026년 적용 최저임금 (고용노동부 2025-08-05 고시).
+ * 시간급 10,320원, 전년 대비 290원(2.9%) 인상. 2026-01-01 ~ 2026-12-31 적용.
+ * 출처: https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=18144
+ */
+export const MINIMUM_WAGE_2026 = {
+  year: 2026,
+  hourlyWage: 10_320,
+  /** 주 40시간 근무(주휴 8시간 포함) 기준 월 환산 근로시간 */
+  standardMonthlyHours: 209,
+} as const;
+
 export const COMPANY_SIZE_OPTIONS: { value: CompanySize; label: string }[] = [
   { value: "under150", label: "상시 150인 미만" },
   { value: "preferred150Plus", label: "150인 이상 (우선지원대상기업)" },
