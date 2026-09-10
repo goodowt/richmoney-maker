@@ -1,5 +1,5 @@
 export type Tool = {
-  slug: "salary" | "severance" | "insurance" | "minimum-wage";
+  slug: "salary" | "severance" | "insurance" | "minimum-wage" | "weekly-holiday-pay";
   title: string;
   shortTitle: string;
   description: string;
@@ -38,6 +38,14 @@ export const tools: Tool[] = [
     description:
       "시급을 입력하면 주휴수당을 포함한 월급을 계산하고, 2026년 최저임금 위반 여부를 확인합니다.",
     emoji: "⏱️",
+  },
+  {
+    slug: "weekly-holiday-pay",
+    title: "주휴수당 계산기",
+    shortTitle: "주휴수당 계산기",
+    description:
+      "시급과 근무일수·개근 여부를 입력하면 1주치 주휴수당과 월·연 환산 금액을 계산합니다.",
+    emoji: "🛌",
   },
 ];
 

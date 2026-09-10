@@ -1,4 +1,5 @@
 import { MINIMUM_WAGE_2026 } from "./rates";
+import { calculateWeeklyHolidayHours } from "./weekly-holiday-pay";
 
 export type MinimumWageCalculatorInput = {
   /** 시급(원) */
@@ -46,8 +47,7 @@ export function calculateMinimumWage(
 ): MinimumWageCalculatorResult {
   const weeklyWorkHours = Math.max(input.dailyWorkHours, 0) * Math.max(input.weeklyWorkDays, 0);
 
-  const weeklyHolidayHours =
-    weeklyWorkHours >= 15 ? Math.min((weeklyWorkHours / 40) * 8, 8) : 0;
+  const weeklyHolidayHours = calculateWeeklyHolidayHours(weeklyWorkHours);
 
   const weeklyPaidHours = weeklyWorkHours + weeklyHolidayHours;
   const monthlyPaidHours = Math.round(weeklyPaidHours * WEEKS_PER_MONTH);
