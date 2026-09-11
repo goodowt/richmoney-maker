@@ -6,7 +6,8 @@ export type Tool = {
     | "minimum-wage"
     | "weekly-holiday-pay"
     | "annual-leave"
-    | "freelance-tax";
+    | "freelance-tax"
+    | "unemployment-benefit";
   title: string;
   shortTitle: string;
   description: string;
@@ -69,6 +70,14 @@ export const tools: Tool[] = [
     description:
       "세전 계약금액 또는 실수령액을 입력하면 프리랜서(사업소득) 3.3% 원천징수세액과 실수령액을 계산합니다.",
     emoji: "🧾",
+  },
+  {
+    slug: "unemployment-benefit",
+    title: "실업급여(구직급여) 계산기",
+    shortTitle: "실업급여 계산기",
+    description:
+      "평균임금·가입기간·연령을 입력하면 2026년 기준 구직급여(실업급여) 예상 수급액을 계산합니다.",
+    emoji: "💼",
   },
 ];
 

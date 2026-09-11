@@ -67,6 +67,39 @@ export const MINIMUM_WAGE_2026 = {
  */
 export const FREELANCE_WITHHOLDING_INCOME_TAX_RATE = 0.03;
 
+/**
+ * 2026년 구직급여(실업급여) 산정 기준(고용보험법 제45·46조).
+ *
+ * 구직급여일액 = 이직 전 평균임금 × 60%이며, 상한액·하한액 사이로 제한됩니다.
+ * 하한액은 이직 당시 최저임금(시간급)의 80% × 1일 소정근로시간(8시간)으로 정해져
+ * 최저임금과 함께 매년 바뀝니다(2026년: 10,320원×0.8×8=66,048원).
+ * 상한액은 고용노동부가 별도로 고시하며, 2026년 1월 1일 이후 이직자부터 68,100원이
+ * 적용됩니다(2025년 66,000원에서 인상).
+ * 출처: 고용노동부 발표(2026년 구직급여 상한·하한액 조정).
+ */
+export const UNEMPLOYMENT_BENEFIT_2026 = {
+  year: 2026,
+  /** 구직급여일액 = 평균임금 × 60% */
+  dailyBenefitRate: 0.6,
+  /** 1일 상한액 */
+  dailyUpperLimit: 68_100,
+  /** 1일 하한액(=최저시급×80%×8시간) */
+  dailyLowerLimit: 66_048,
+} as const;
+
+/**
+ * 구직급여 소정급여일수(고용보험법 시행령 별표1, 2019.10.1 개정 기준 현행).
+ * 이직일 현재 연령과 고용보험 피보험기간(가입기간)에 따라 정해집니다.
+ * upToMonths는 "미만" 기준 상한(예: 12 → 피보험기간 1년 미만)입니다.
+ */
+export const PRESCRIBED_BENEFIT_DAYS = [
+  { upToMonths: 12, under50: 120, over50OrDisabled: 120 },
+  { upToMonths: 36, under50: 150, over50OrDisabled: 180 },
+  { upToMonths: 60, under50: 180, over50OrDisabled: 210 },
+  { upToMonths: 120, under50: 210, over50OrDisabled: 240 },
+  { upToMonths: Infinity, under50: 240, over50OrDisabled: 270 },
+] as const;
+
 export const COMPANY_SIZE_OPTIONS: { value: CompanySize; label: string }[] = [
   { value: "under150", label: "상시 150인 미만" },
   { value: "preferred150Plus", label: "150인 이상 (우선지원대상기업)" },
