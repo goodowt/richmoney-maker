@@ -189,3 +189,158 @@ export function monthlyChildTaxCredit(childCount: number): number {
   if (childCount === 2) return 29_160;
   return 29_160 + (childCount - 2) * 25_000;
 }
+
+/**
+ * 연말정산 자녀세액공제(연간 확정 금액, 소득세법 제59조의2, 2024년 개정 상향분 반영).
+ * 8세 이상 기본공제대상 자녀 수 기준으로, 월 간이세액표에서 쓰는 monthlyChildTaxCredit과는
+ * 금액 체계가 달라 별도 상수로 둡니다(연말정산은 실제 연간 확정치를 그대로 적용).
+ * 1명 25만원, 2명 55만원, 3명째부터 1인당 40만원씩 가산.
+ */
+export function annualChildTaxCredit(childCount: number): number {
+  const n = Math.max(0, Math.floor(childCount));
+  if (n === 0) return 0;
+  if (n === 1) return 250_000;
+  if (n === 2) return 550_000;
+  return 550_000 + (n - 2) * 400_000;
+}
+
+/**
+ * 연말정산 "그 밖의 소득공제·세액공제" 항목별 2026년 기준 요율·한도.
+ * (근로소득세액공제·자녀세액공제·기본공제 등 기존 상수는 위쪽 것을 그대로 재사용)
+ *
+ * 출처(2026-09 확인):
+ * - 신용카드 등 사용액 소득공제: 국세청 연말정산 안내(소득세법 제126조의2)
+ * - 의료비·교육비·보험료·기부금 세액공제율: 국세청 연말정산 안내(소득세법 제59조의4)
+ * - 연금계좌 세액공제: 국세청·금융권 공통 안내(소득세법 제59조의3, 900만원 한도는 2023년 개정)
+ * - 월세액 세액공제: 국세청 안내(2025년 귀속 기준 현행 한도 1,000만원 — 2026년 세제개편안의
+ *   1,200만원 확대는 국회 심의 중이라 미반영, 확정되면 갱신 필요)
+ */
+export const CREDIT_CARD_DEDUCTION_2026 = {
+  /** 총급여의 이 비율을 초과해 쓴 금액부터 공제 대상 */
+  minSpendingRatio: 0.25,
+  creditCardRate: 0.15,
+  checkCardOrCashReceiptRate: 0.3,
+  traditionalMarketOrTransitRate: 0.4,
+  /** 기본공제 한도(전통시장·대중교통 추가한도 제외), 총급여 구간별 */
+  baseLimitBrackets: [
+    { upTo: 70_000_000, limit: 3_000_000 },
+    { upTo: 120_000_000, limit: 2_500_000 },
+    { upTo: Infinity, limit: 2_000_000 },
+  ],
+  /**
+   * 전통시장·대중교통·도서공연 등 각각 최대 100만원(총급여 7천만원 이하는 도서공연 포함
+   * 최대 300만원)씩 별도 추가한도가 있으나, 이 계산기는 "전통시장·대중교통" 사용액을
+   * 하나로 합쳐 입력받는 대신 추가한도도 합산 300만원으로 간이화했습니다.
+   */
+  extraLimit: 3_000_000,
+} as const;
+
+export const SPECIAL_TAX_CREDIT_RATES_2026 = {
+  medicalExpense: {
+    rate: 0.15,
+    /** 총급여의 이 비율을 초과한 지출분만 공제 대상 */
+    thresholdRatio: 0.03,
+    /** 본인·65세 이상 부양가족·장애인·난임시술비 등은 한도 없음(간이화: 체크박스로 선택) */
+    generalLimit: 7_000_000,
+  },
+  education: {
+    rate: 0.15,
+    /** 대학생(대학원 제외) 1인당 한도 */
+    universityLimitPerPerson: 9_000_000,
+    /** 취학전아동·초중고생 1인당 한도(본인은 전액 한도 없음이나 이 계산기는 부양가족 학비로 간주) */
+    preCollegeLimitPerPerson: 3_000_000,
+  },
+  insurancePremium: {
+    rate: 0.12,
+    disabledRate: 0.15,
+    limit: 1_000_000,
+  },
+  donation: {
+    rate: 0.15,
+    highRate: 0.3,
+    highThreshold: 10_000_000,
+  },
+  pensionAccount: {
+    /** 총급여 이 금액 이하면 15%, 초과하면 12% */
+    highRateIncomeLimit: 55_000_000,
+    highRate: 0.15,
+    lowRate: 0.12,
+    /** 연금저축+IRP 합산 한도 */
+    totalLimit: 9_000_000,
+    /** 연금저축 단독 한도(IRP 없이 연금저축만으로 채울 수 있는 최대치) */
+    pensionSavingsOnlyLimit: 6_000_000,
+  },
+  monthlyRent: {
+    /** 이 총급여를 넘으면 대상 제외 */
+    eligibleIncomeLimit: 80_000_000,
+    /** 이 총급여 이하면 17%, 초과(8천만원 이하까지)면 15% */
+    highRateIncomeLimit: 55_000_000,
+    highRate: 0.17,
+    lowRate: 0.15,
+    annualLimit: 10_000_000,
+  },
+} as const;
+
+/** 표준세액공제(특별소득공제·특별세액공제를 신청하지 않았을 때 대신 적용) */
+export const STANDARD_TAX_CREDIT_YEAR_END = 130_000;
+
+/** 주택청약종합저축 소득공제(무주택 세대주, 총급여 7천만원 이하) */
+export const HOUSING_SAVINGS_DEDUCTION_2026 = {
+  incomeLimit: 70_000_000,
+  rate: 0.4,
+  contributionLimit: 3_000_000,
+} as const;
+
+export type MortgageTermType =
+  | "over15FixedAndNonBullet"
+  | "over15OneOfFixedOrNonBullet"
+  | "over15Other"
+  | "from10To15FixedOrNonBullet"
+  | "from10To15Other";
+
+/**
+ * 장기주택저당차입금 이자상환액 소득공제 한도(상환기간·금리·상환방식별, 2024년 개정 기준).
+ * 무주택(또는 1주택) 세대주가 취득 당시 기준시가 6억원 이하 주택을 담보로 한 대출만 대상.
+ */
+export const MORTGAGE_INTEREST_DEDUCTION_OPTIONS: {
+  value: MortgageTermType;
+  label: string;
+  limit: number;
+}[] = [
+  {
+    value: "over15FixedAndNonBullet",
+    label: "상환기간 15년 이상 · 고정금리 + 비거치식분할상환",
+    limit: 20_000_000,
+  },
+  {
+    value: "over15OneOfFixedOrNonBullet",
+    label: "상환기간 15년 이상 · 고정금리 또는 비거치식 중 하나만",
+    limit: 18_000_000,
+  },
+  {
+    value: "over15Other",
+    label: "상환기간 15년 이상 · 그 외(변동금리+거치식 등)",
+    limit: 8_000_000,
+  },
+  {
+    value: "from10To15FixedOrNonBullet",
+    label: "상환기간 10년~15년 미만 · 고정금리 또는 비거치식",
+    limit: 6_000_000,
+  },
+  {
+    value: "from10To15Other",
+    label: "상환기간 10년~15년 미만 · 그 외",
+    limit: 3_000_000,
+  },
+];
+
+/**
+ * 중소기업 취업자 소득세 감면(조세특례제한법 제30조, 2026-12-31까지 취업분 적용).
+ * 청년(만 15~34세, 병역기간 최대 6년 차감)은 90%·5년, 60세 이상·장애인·경력단절여성은
+ * 70%·3년 감면되며, 과세기간별 한도는 200만원으로 동일합니다.
+ */
+export const SME_TAX_REDUCTION_2026 = {
+  youthRate: 0.9,
+  otherRate: 0.7,
+  annualLimit: 2_000_000,
+} as const;

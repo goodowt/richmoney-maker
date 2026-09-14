@@ -7,7 +7,8 @@ export type Tool = {
     | "weekly-holiday-pay"
     | "annual-leave"
     | "freelance-tax"
-    | "unemployment-benefit";
+    | "unemployment-benefit"
+    | "year-end-tax";
   title: string;
   shortTitle: string;
   description: string;
@@ -78,6 +79,14 @@ export const tools: Tool[] = [
     description:
       "평균임금·가입기간·연령을 입력하면 2026년 기준 구직급여(실업급여) 예상 수급액을 계산합니다.",
     emoji: "💼",
+  },
+  {
+    slug: "year-end-tax",
+    title: "연말정산 계산기",
+    shortTitle: "연말정산 계산기",
+    description:
+      "총급여와 신용카드·의료비·교육비·기부금·연금저축·주택자금 등 각종 공제 항목을 입력하면 예상 환급액(또는 추가납부액)을 계산합니다.",
+    emoji: "🧮",
   },
 ];
 

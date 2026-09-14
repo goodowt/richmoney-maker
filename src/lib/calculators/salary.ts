@@ -52,13 +52,15 @@ export type SalaryCalculatorResult = {
   annualNetSalary: number;
 };
 
-function laborIncomeDeduction(annualGross: number) {
+/** 근로소득공제(연간 총급여 기준). 연말정산 계산기(year-end-tax.ts)에서도 재사용합니다. */
+export function laborIncomeDeduction(annualGross: number) {
   const amount = calcBracketed(annualGross, LABOR_INCOME_DEDUCTION_BRACKETS);
   // 근로소득공제는 2,000만원을 한도로 함
   return Math.min(amount, 20_000_000);
 }
 
-function laborIncomeTaxCredit(calculatedTax: number, annualGross: number) {
+/** 근로소득세액공제(한도 포함). 연말정산 계산기(year-end-tax.ts)에서도 재사용합니다. */
+export function laborIncomeTaxCredit(calculatedTax: number, annualGross: number) {
   const raw =
     calculatedTax <= 1_300_000
       ? calculatedTax * 0.55
