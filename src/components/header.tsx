@@ -3,7 +3,7 @@ import { tools, siteConfig } from "@/lib/tools";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-10 border-b border-border bg-background/85 backdrop-blur">
+    <header className="border-b border-border bg-background">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <span
