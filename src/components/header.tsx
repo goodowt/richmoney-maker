@@ -16,20 +16,20 @@ export function Header() {
         </Link>
         <nav
           aria-label="주요 계산기"
-          className="flex flex-wrap items-center gap-1 text-sm"
+          className="flex w-full items-center gap-1 overflow-x-auto text-sm [-ms-overflow-style:none] [scrollbar-width:none] sm:w-auto sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden"
         >
           {tools.map((tool) => (
             <Link
               key={tool.slug}
               href={`/calculators/${tool.slug}`}
-              className="rounded-full px-3 py-2 font-medium text-foreground/70 transition-colors hover:bg-primary-soft hover:text-primary-hover"
+              className="shrink-0 whitespace-nowrap rounded-full px-3 py-2 font-medium text-foreground/70 transition-colors hover:bg-primary-soft hover:text-primary-hover"
             >
               {tool.shortTitle}
             </Link>
           ))}
           <Link
             href="/about"
-            className="rounded-full px-3 py-2 font-medium text-foreground/70 transition-colors hover:bg-primary-soft hover:text-primary-hover"
+            className="shrink-0 whitespace-nowrap rounded-full px-3 py-2 font-medium text-foreground/70 transition-colors hover:bg-primary-soft hover:text-primary-hover"
           >
             소개
           </Link>
