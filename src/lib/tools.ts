@@ -8,7 +8,8 @@ export type Tool = {
     | "annual-leave"
     | "freelance-tax"
     | "unemployment-benefit"
-    | "year-end-tax";
+    | "year-end-tax"
+    | "acquisition-tax";
   title: string;
   shortTitle: string;
   description: string;
@@ -87,6 +88,14 @@ export const tools: Tool[] = [
     description:
       "총급여와 신용카드·의료비·교육비·기부금·연금저축·주택자금 등 각종 공제 항목을 입력하면 예상 환급액(또는 추가납부액)을 계산합니다.",
     emoji: "🧮",
+  },
+  {
+    slug: "acquisition-tax",
+    title: "아파트 취득세 계산기",
+    shortTitle: "취득세 계산기",
+    description:
+      "취득가격·취득원인·보유주택수를 입력하면 2026년 기준 아파트 취득세·지방교육세·농어촌특별세를 계산합니다.",
+    emoji: "🏢",
   },
 ];
 
