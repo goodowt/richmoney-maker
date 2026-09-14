@@ -29,15 +29,15 @@ function NumberField({
         <input
           type="number"
           inputMode="numeric"
-          className="w-full rounded-lg border border-black/15 bg-transparent px-3 py-2 text-base outline-none focus:border-black/40 dark:border-white/20 dark:focus:border-white/50"
+          className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-primary"
           value={Number.isFinite(value) ? value : 0}
           min={min}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
         />
-        {suffix && <span className="text-sm text-black/50 dark:text-white/50">{suffix}</span>}
+        {suffix && <span className="text-sm text-foreground/55">{suffix}</span>}
       </div>
-      {hint && <p className="mt-1 text-xs text-black/45 dark:text-white/45">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </label>
   );
 }
@@ -59,7 +59,7 @@ export function MinimumWageCalculatorForm() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <div className="space-y-5 rounded-xl border border-black/10 p-6 dark:border-white/10">
+      <div className="space-y-5 rounded-2xl border border-border bg-card p-6">
         <NumberField
           label="시급"
           hint="2026년 최저시급은 10,320원입니다."
@@ -87,14 +87,14 @@ export function MinimumWageCalculatorForm() {
         />
       </div>
 
-      <div className="rounded-xl border border-black/10 p-6 dark:border-white/10">
+      <div className="rounded-2xl border border-border bg-card p-6">
         <div className="mb-4 grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">월 예상 급여(세전)</p>
+            <p className="text-sm text-foreground/55">월 예상 급여(세전)</p>
             <p className="text-2xl font-bold sm:text-3xl">{formatWon(result.monthlyWage)}</p>
           </div>
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">연 환산 급여(세전)</p>
+            <p className="text-sm text-foreground/55">연 환산 급여(세전)</p>
             <p className="text-2xl font-bold sm:text-3xl">{formatWon(result.annualWage)}</p>
           </div>
         </div>
@@ -111,16 +111,16 @@ export function MinimumWageCalculatorForm() {
         )}
 
         <details className="group mt-4" open>
-          <summary className="cursor-pointer select-none list-none rounded-lg bg-black/[.03] px-3 py-2 text-sm font-medium dark:bg-white/[.06]">
+          <summary className="cursor-pointer select-none list-none rounded-lg bg-primary-soft/50 px-3 py-2 text-sm font-medium">
             계산 내역 펼쳐보기
           </summary>
-          <div className="divide-y divide-black/5 px-1 pt-2 text-sm dark:divide-white/10">
+          <div className="divide-y divide-border px-1 pt-2 text-sm">
             <div className="flex items-baseline justify-between py-1.5">
-              <span className="text-black/70 dark:text-white/70">주 근무시간</span>
+              <span className="text-foreground/75">주 근무시간</span>
               <span className="tabular-nums">{result.weeklyWorkHours}시간</span>
             </div>
             <div className="flex items-baseline justify-between py-1.5">
-              <span className="text-black/70 dark:text-white/70">주휴시간</span>
+              <span className="text-foreground/75">주휴시간</span>
               <span className="tabular-nums">{result.weeklyHolidayHours}시간</span>
             </div>
             <div className="flex items-baseline justify-between py-1.5">
@@ -130,7 +130,7 @@ export function MinimumWageCalculatorForm() {
           </div>
         </details>
 
-        <p className="mt-4 text-xs leading-relaxed text-black/45 dark:text-white/45">
+        <p className="mt-4 text-xs leading-relaxed text-muted">
           주휴수당은 1주 소정근로시간이 15시간 이상일 때 발생하며(근로기준법 제55조),
           주 40시간 근무 기준 월 환산 근로시간은 209시간입니다. 실제 급여는 회사의
           급여 계산 방식(비과세 항목, 수당 포함 여부 등)에 따라 다를 수 있습니다.
@@ -138,7 +138,7 @@ export function MinimumWageCalculatorForm() {
 
         <Link
           href="/calculators/salary"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-black/70 underline decoration-black/30 underline-offset-4 hover:text-black dark:text-white/70 dark:decoration-white/30 dark:hover:text-white"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground/75 underline decoration-primary/40 underline-offset-4 hover:text-primary"
         >
           이 월급으로 4대보험·세금 뗀 실수령액까지 계산해보기 →
         </Link>

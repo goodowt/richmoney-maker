@@ -23,8 +23,8 @@ export function CalculatorShell({
               aria-current={isActive ? "page" : undefined}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-foreground text-background"
-                  : "bg-black/5 text-black/70 hover:bg-black/10 dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-primary-soft/40 text-foreground/70 hover:bg-primary-soft"
               }`}
             >
               {tool.emoji} {tool.shortTitle}
@@ -35,7 +35,7 @@ export function CalculatorShell({
 
       <header className="mb-8">
         <h1 className="text-2xl font-bold sm:text-3xl">{active.title}</h1>
-        <p className="mt-2 text-black/60 dark:text-white/60">{active.description}</p>
+        <p className="mt-2 text-foreground/60">{active.description}</p>
       </header>
 
       {children}

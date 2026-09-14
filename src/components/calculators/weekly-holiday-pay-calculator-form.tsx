@@ -29,15 +29,15 @@ function NumberField({
         <input
           type="number"
           inputMode="numeric"
-          className="w-full rounded-lg border border-black/15 bg-transparent px-3 py-2 text-base outline-none focus:border-black/40 dark:border-white/20 dark:focus:border-white/50"
+          className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-primary"
           value={Number.isFinite(value) ? value : 0}
           min={min}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
         />
-        {suffix && <span className="text-sm text-black/50 dark:text-white/50">{suffix}</span>}
+        {suffix && <span className="text-sm text-foreground/55">{suffix}</span>}
       </div>
-      {hint && <p className="mt-1 text-xs text-black/45 dark:text-white/45">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </label>
   );
 }
@@ -61,7 +61,7 @@ export function WeeklyHolidayPayCalculatorForm() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <div className="space-y-5 rounded-xl border border-black/10 p-6 dark:border-white/10">
+      <div className="space-y-5 rounded-2xl border border-border bg-card p-6">
         <NumberField
           label="시급"
           hint="2026년 최저시급은 10,320원입니다."
@@ -87,7 +87,7 @@ export function WeeklyHolidayPayCalculatorForm() {
           step={1}
           suffix="일"
         />
-        <label className="flex items-start gap-2.5 rounded-lg bg-black/[.03] px-3 py-2.5 dark:bg-white/[.06]">
+        <label className="flex items-start gap-2.5 rounded-lg bg-primary-soft/50 px-3 py-2.5">
           <input
             type="checkbox"
             className="mt-0.5 h-4 w-4 accent-foreground"
@@ -96,7 +96,7 @@ export function WeeklyHolidayPayCalculatorForm() {
           />
           <span className="text-sm">
             <span className="font-medium">이번 주에 결근 없이 개근했어요</span>
-            <span className="mt-0.5 block text-xs text-black/50 dark:text-white/50">
+            <span className="mt-0.5 block text-xs text-foreground/55">
               지각·조퇴는 상관없지만, 하루라도 결근하면 그 주는 주휴수당이 발생하지
               않아요.
             </span>
@@ -104,17 +104,17 @@ export function WeeklyHolidayPayCalculatorForm() {
         </label>
       </div>
 
-      <div className="rounded-xl border border-black/10 p-6 dark:border-white/10">
-        <p className="text-sm text-black/50 dark:text-white/50">1주치 주휴수당</p>
+      <div className="rounded-2xl border border-border bg-card p-6">
+        <p className="text-sm text-foreground/55">1주치 주휴수당</p>
         <p className="text-2xl font-bold sm:text-3xl">{formatWon(result.weeklyHolidayPay)}</p>
 
         <div className="mt-4 grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">월 환산(약 4.345주)</p>
+            <p className="text-sm text-foreground/55">월 환산(약 4.345주)</p>
             <p className="text-lg font-semibold">{formatWon(result.monthlyHolidayPay)}</p>
           </div>
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">연 환산</p>
+            <p className="text-sm text-foreground/55">연 환산</p>
             <p className="text-lg font-semibold">{formatWon(result.annualHolidayPay)}</p>
           </div>
         </div>
@@ -133,12 +133,12 @@ export function WeeklyHolidayPayCalculatorForm() {
         )}
 
         <details className="group mt-4" open>
-          <summary className="cursor-pointer select-none list-none rounded-lg bg-black/[.03] px-3 py-2 text-sm font-medium dark:bg-white/[.06]">
+          <summary className="cursor-pointer select-none list-none rounded-lg bg-primary-soft/50 px-3 py-2 text-sm font-medium">
             계산 내역 펼쳐보기
           </summary>
-          <div className="divide-y divide-black/5 px-1 pt-2 text-sm dark:divide-white/10">
+          <div className="divide-y divide-border px-1 pt-2 text-sm">
             <div className="flex items-baseline justify-between py-1.5">
-              <span className="text-black/70 dark:text-white/70">주 근무시간</span>
+              <span className="text-foreground/75">주 근무시간</span>
               <span className="tabular-nums">{result.weeklyWorkHours}시간</span>
             </div>
             <div className="flex items-baseline justify-between py-1.5">
@@ -150,7 +150,7 @@ export function WeeklyHolidayPayCalculatorForm() {
           </div>
         </details>
 
-        <p className="mt-4 text-xs leading-relaxed text-black/45 dark:text-white/45">
+        <p className="mt-4 text-xs leading-relaxed text-muted">
           주휴수당은 근로기준법 제55조에 따라 주 15시간 이상 근무하고 그 주에 개근한
           근로자에게 지급됩니다. 정규직·아르바이트 구분 없이 요건을 충족하면 지급
           의무가 있어요.
@@ -158,7 +158,7 @@ export function WeeklyHolidayPayCalculatorForm() {
 
         <Link
           href="/calculators/minimum-wage"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-black/70 underline decoration-black/30 underline-offset-4 hover:text-black dark:text-white/70 dark:decoration-white/30 dark:hover:text-white"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground/75 underline decoration-primary/40 underline-offset-4 hover:text-primary"
         >
           주휴수당 포함 월급 전체를 최저임금 계산기에서 확인하기 →
         </Link>

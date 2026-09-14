@@ -14,7 +14,7 @@ export function AnnualLeaveInfoSections() {
         <h2 id="howto-heading" className="text-xl font-bold">
           이 계산기 사용법
         </h2>
-        <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-foreground/75">
           <li>회사에 입사한 날짜를 &ldquo;입사일&rdquo;에 입력해요.</li>
           <li>
             연차를 계산하고 싶은 날짜(보통 오늘, 또는 퇴사 예정일)를 &ldquo;연차 산정
@@ -29,7 +29,7 @@ export function AnnualLeaveInfoSections() {
         <h2 id="basics-heading" className="text-xl font-bold">
           연차수당이 뭔가요?
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <p className="mt-3 text-sm leading-relaxed text-foreground/75">
           연차(연차유급휴가)는 회사를 다니면서 <strong>돈을 받으면서 쉴 수 있는 날</strong>
           이에요. 그런데 회사 사정 등으로 이 연차를 다 못 쓰고 한 해가 지나가버리면,
           회사는 <strong>못 쓴 연차만큼 돈으로 돌려줘야</strong> 해요. 이 돈이
@@ -41,7 +41,7 @@ export function AnnualLeaveInfoSections() {
         <h2 id="condition-heading" className="text-xl font-bold">
           연차는 얼마나 생기나요?
         </h2>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-foreground/75">
           <li>
             <strong>입사 후 1년 미만</strong>일 때는 한 달을 개근할 때마다 연차가 1일씩
             생겨요. 최대 11일까지 모을 수 있어요.
@@ -61,13 +61,13 @@ export function AnnualLeaveInfoSections() {
         <h2 id="formula-heading" className="text-xl font-bold">
           연차수당 계산 공식은 어떻게 되나요?
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <p className="mt-3 text-sm leading-relaxed text-foreground/75">
           연차수당 = 남은(미사용) 연차일수 × 1일 통상임금이에요. 1일 통상임금은
           &ldquo;월급 ÷ 월 소정근로시간 × 하루 근무시간&rdquo;으로 구해요. 여기서 월
           소정근로시간은 최저임금·주휴수당 계산기와 같은 방식으로, 주휴시간까지 포함해서
           계산해요(하루 8시간·주 5일 근무라면 209시간).
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <p className="mt-3 text-sm leading-relaxed text-foreground/75">
           예를 들어 월급 300만원, 하루 8시간·주 5일 근무라면 통상시급은 약 14,354원,
           1일 통상임금은 약 114,833원이에요. 못 쓴 연차가 5일 남았다면 연차수당은 약
           574,163원이 돼요.
@@ -78,25 +78,25 @@ export function AnnualLeaveInfoSections() {
         <h2 id="table-heading" className="text-xl font-bold">
           근속연수별 연차 발생일수
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-black/60 dark:text-white/60">
+        <p className="mt-2 text-sm leading-relaxed text-foreground/60">
           근로기준법 제60조에 따른 법정 최소 연차일수예요. 회사 내규로 이보다 더 많이
           주는 경우도 있어요.
         </p>
-        <div className="mt-4 overflow-x-auto rounded-xl border border-black/10 dark:border-white/10">
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[320px] text-sm">
-            <thead className="bg-black/[.03] dark:bg-white/[.06]">
+            <thead className="bg-primary-soft/50">
               <tr>
                 <th className="px-4 py-2 text-left font-medium">근속연수</th>
                 <th className="px-4 py-2 text-right font-medium">연차일수</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/5 dark:divide-white/10">
+            <tbody className="divide-y divide-border">
               {yearsTable.map(({ years, days }) => (
                 <tr key={years}>
                   <td className="px-4 py-2">
                     {years}년차
                     {years === 21 && (
-                      <span className="ml-1.5 rounded bg-black/[.06] px-1.5 py-0.5 text-xs text-black/60 dark:bg-white/10 dark:text-white/60">
+                      <span className="ml-1.5 rounded bg-primary-soft px-1.5 py-0.5 text-xs text-foreground/60">
                         상한 도달
                       </span>
                     )}

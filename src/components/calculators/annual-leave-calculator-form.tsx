@@ -35,15 +35,15 @@ function NumberField({
         <input
           type="number"
           inputMode="numeric"
-          className="w-full rounded-lg border border-black/15 bg-transparent px-3 py-2 text-base outline-none focus:border-black/40 dark:border-white/20 dark:focus:border-white/50"
+          className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-primary"
           value={Number.isFinite(value) ? value : 0}
           min={min}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
         />
-        {suffix && <span className="text-sm text-black/50 dark:text-white/50">{suffix}</span>}
+        {suffix && <span className="text-sm text-foreground/55">{suffix}</span>}
       </div>
-      {hint && <p className="mt-1 text-xs text-black/45 dark:text-white/45">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </label>
   );
 }
@@ -64,11 +64,11 @@ function DateField({
       <span className="text-sm font-medium">{label}</span>
       <input
         type="date"
-        className="mt-1 w-full rounded-lg border border-black/15 bg-transparent px-3 py-2 text-base outline-none focus:border-black/40 dark:border-white/20 dark:focus:border-white/50"
+        className="mt-1 w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-primary"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      {hint && <p className="mt-1 text-xs text-black/45 dark:text-white/45">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </label>
   );
 }
@@ -103,7 +103,7 @@ export function AnnualLeaveCalculatorForm() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <div className="space-y-5 rounded-xl border border-black/10 p-6 dark:border-white/10">
+      <div className="space-y-5 rounded-2xl border border-border bg-card p-6">
         <DateField label="입사일" value={hireDate} onChange={setHireDate} />
         <DateField
           label="연차 산정 기준일"
@@ -148,23 +148,23 @@ export function AnnualLeaveCalculatorForm() {
         />
       </div>
 
-      <div className="rounded-xl border border-black/10 p-6 dark:border-white/10">
-        <p className="text-sm text-black/50 dark:text-white/50">연차수당(미사용 연차 기준)</p>
+      <div className="rounded-2xl border border-border bg-card p-6">
+        <p className="text-sm text-foreground/55">연차수당(미사용 연차 기준)</p>
         <p className="text-2xl font-bold sm:text-3xl">{formatWon(result.annualLeavePay)}</p>
 
         <div className="mt-4 grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">발생 연차일수</p>
+            <p className="text-sm text-foreground/55">발생 연차일수</p>
             <p className="text-lg font-semibold">{result.totalEntitledDays}일</p>
           </div>
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">남은(미사용) 연차</p>
+            <p className="text-sm text-foreground/55">남은(미사용) 연차</p>
             <p className="text-lg font-semibold">{result.remainingLeaveDays}일</p>
           </div>
         </div>
 
         {result.remainingLeaveDays === 0 && (
-          <div className="mt-4 rounded-lg bg-black/[.04] px-3 py-2.5 text-sm text-black/60 dark:bg-white/[.06] dark:text-white/60">
+          <div className="mt-4 rounded-lg bg-primary-soft/50 px-3 py-2.5 text-sm text-foreground/60">
             {result.totalEntitledDays === 0
               ? "아직 연차가 발생하지 않았어요."
               : "발생한 연차를 이미 다 사용해서 연차수당이 없어요."}
@@ -172,18 +172,18 @@ export function AnnualLeaveCalculatorForm() {
         )}
 
         <details className="group mt-4" open>
-          <summary className="cursor-pointer select-none list-none rounded-lg bg-black/[.03] px-3 py-2 text-sm font-medium dark:bg-white/[.06]">
+          <summary className="cursor-pointer select-none list-none rounded-lg bg-primary-soft/50 px-3 py-2 text-sm font-medium">
             계산 내역 펼쳐보기
           </summary>
-          <div className="divide-y divide-black/5 px-1 pt-2 text-sm dark:divide-white/10">
+          <div className="divide-y divide-border px-1 pt-2 text-sm">
             <div className="flex items-baseline justify-between py-1.5">
-              <span className="text-black/70 dark:text-white/70">근속기간</span>
+              <span className="text-foreground/75">근속기간</span>
               <span className="tabular-nums">
                 {result.serviceYearsLabel.years}년 {result.serviceYearsLabel.months}개월
               </span>
             </div>
             <div className="flex items-baseline justify-between py-1.5">
-              <span className="text-black/70 dark:text-white/70">통상시급</span>
+              <span className="text-foreground/75">통상시급</span>
               <span className="tabular-nums">{formatWon(result.hourlyOrdinaryWage)}</span>
             </div>
             <div className="flex items-baseline justify-between py-1.5">
@@ -195,7 +195,7 @@ export function AnnualLeaveCalculatorForm() {
           </div>
         </details>
 
-        <p className="mt-4 text-xs leading-relaxed text-black/45 dark:text-white/45">
+        <p className="mt-4 text-xs leading-relaxed text-muted">
           근속 1년 미만은 개근한 달마다 1일(최대 11일), 1년 이상은 15일에 매 2년마다
           1일씩 가산(최대 25일)됩니다(근로기준법 제60조). 입사 첫해에 받은 최대 11일과
           1년 시점에 새로 발생하는 15일은 별도로 관리되니, 첫해 미사용 연차가 남아있다면
@@ -204,7 +204,7 @@ export function AnnualLeaveCalculatorForm() {
 
         <Link
           href="/calculators/salary"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-black/70 underline decoration-black/30 underline-offset-4 hover:text-black dark:text-white/70 dark:decoration-white/30 dark:hover:text-white"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground/75 underline decoration-primary/40 underline-offset-4 hover:text-primary"
         >
           연차수당까지 포함한 월급으로 실수령액 계산해보기 →
         </Link>

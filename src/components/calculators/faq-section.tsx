@@ -19,14 +19,14 @@ export function FaqSection({ items }: { items: FaqItem[] }) {
       <h2 id="faq-heading" className="text-xl font-bold">
         자주 묻는 질문
       </h2>
-      <div className="mt-4 divide-y divide-black/10 dark:divide-white/10">
+      <div className="mt-4 divide-y divide-border">
         {items.map((item) => (
           <details key={item.question} className="group py-4">
             <summary className="cursor-pointer select-none list-none font-medium marker:content-none">
-              <span className="mr-2 text-black/40 dark:text-white/40">Q.</span>
+              <span className="mr-2 text-primary">Q.</span>
               {item.question}
             </summary>
-            <p className="mt-2 pl-5 text-sm leading-relaxed text-black/65 dark:text-white/65">
+            <p className="mt-2 pl-5 text-sm leading-relaxed text-foreground/70">
               {item.answer}
             </p>
           </details>

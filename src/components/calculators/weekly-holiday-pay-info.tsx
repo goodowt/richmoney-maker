@@ -22,7 +22,7 @@ export function WeeklyHolidayPayInfoSections() {
         <h2 id="howto-heading" className="text-xl font-bold">
           이 계산기 사용법
         </h2>
-        <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-foreground/75">
           <li>시급(1시간당 받는 돈)을 &ldquo;시급&rdquo; 칸에 입력해요.</li>
           <li>하루에 몇 시간, 일주일에 며칠 일하는지 입력해요.</li>
           <li>
@@ -37,7 +37,7 @@ export function WeeklyHolidayPayInfoSections() {
         <h2 id="basics-heading" className="text-xl font-bold">
           주휴수당이 뭔가요?
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <p className="mt-3 text-sm leading-relaxed text-foreground/75">
           주휴수당은 일주일 동안 정해진 날짜에 &ldquo;다 나와서 일한&rdquo; 근로자에게,
           <strong> 일하지 않아도 하루치 돈을 더 주는 제도</strong>예요(근로기준법 제55조).
           예를 들어 월~금 5일을 다 나와서 일했다면, 다음 한 주에 하루는 일을 안 해도
@@ -50,7 +50,7 @@ export function WeeklyHolidayPayInfoSections() {
         <h2 id="condition-heading" className="text-xl font-bold">
           주휴수당을 받으려면 어떤 조건이 필요한가요?
         </h2>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-foreground/75">
           <li>
             <strong>1주 소정근로시간이 15시간 이상</strong>이어야 해요. 예를 들어 주 3일,
             하루 4시간만 일한다면(주 12시간) 조건을 채우지 못해 주휴수당이 없어요.
@@ -71,12 +71,12 @@ export function WeeklyHolidayPayInfoSections() {
         <h2 id="formula-heading" className="text-xl font-bold">
           계산 공식은 어떻게 되나요?
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <p className="mt-3 text-sm leading-relaxed text-foreground/75">
           주휴수당 = 주휴시간 × 시급이고, 주휴시간은 &ldquo;(주 근로시간 ÷ 40) × 8시간
           &rdquo;으로 구해요(최대 8시간). 주 40시간(하루 8시간×5일) 이상 일하면 주휴시간은
           꽉 채운 8시간이고, 그보다 적게 일하면 비례해서 줄어들어요.
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
+        <p className="mt-3 text-sm leading-relaxed text-foreground/75">
           예를 들어 시급 {formatWon(hourlyWage)}, 주 40시간을 일했다면 주휴시간 8시간 ×
           시급 = <strong>{formatWon(hourlyWage * 8)}</strong>이 1주치 주휴수당이에요. 이걸
           한 달(약 4.345주)로 환산하면 매달 대략 그만큼 더 받는 셈이 돼요.
@@ -87,26 +87,26 @@ export function WeeklyHolidayPayInfoSections() {
         <h2 id="table-heading" className="text-xl font-bold">
           주 근무시간별 주휴수당 (2026년 최저시급 기준)
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-black/60 dark:text-white/60">
+        <p className="mt-2 text-sm leading-relaxed text-foreground/60">
           시급 {formatWon(hourlyWage)}, 개근을 기준으로 계산한 표예요. 실제 시급이나 근무
           형태가 다르면 위 계산기에 직접 입력해서 확인하세요.
         </p>
-        <div className="mt-4 overflow-x-auto rounded-xl border border-black/10 dark:border-white/10">
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[420px] text-sm">
-            <thead className="bg-black/[.03] dark:bg-white/[.06]">
+            <thead className="bg-primary-soft/50">
               <tr>
                 <th className="px-4 py-2 text-left font-medium">주 근무시간</th>
                 <th className="px-4 py-2 text-right font-medium">1주 주휴수당</th>
                 <th className="px-4 py-2 text-right font-medium">월 환산</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/5 dark:divide-white/10">
+            <tbody className="divide-y divide-border">
               {hoursTable.map(({ weeklyWorkHours, result }) => (
                 <tr key={weeklyWorkHours}>
                   <td className="px-4 py-2">
                     {weeklyWorkHours}시간
                     {weeklyWorkHours === 40 && (
-                      <span className="ml-1.5 rounded bg-black/[.06] px-1.5 py-0.5 text-xs text-black/60 dark:bg-white/10 dark:text-white/60">
+                      <span className="ml-1.5 rounded bg-primary-soft px-1.5 py-0.5 text-xs text-foreground/60">
                         풀타임
                       </span>
                     )}
@@ -114,7 +114,7 @@ export function WeeklyHolidayPayInfoSections() {
                   <td className="px-4 py-2 text-right tabular-nums font-medium">
                     {formatWon(result.weeklyHolidayPay)}
                   </td>
-                  <td className="px-4 py-2 text-right tabular-nums text-black/60 dark:text-white/60">
+                  <td className="px-4 py-2 text-right tabular-nums text-foreground/60">
                     {formatWon(result.monthlyHolidayPay)}
                   </td>
                 </tr>

@@ -31,15 +31,15 @@ function NumberField({
         <input
           type="number"
           inputMode="numeric"
-          className="w-full rounded-lg border border-black/15 bg-transparent px-3 py-2 text-base outline-none focus:border-black/40 dark:border-white/20 dark:focus:border-white/50"
+          className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-primary"
           value={Number.isFinite(value) ? value : 0}
           min={min}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
         />
-        {suffix && <span className="text-sm text-black/50 dark:text-white/50">{suffix}</span>}
+        {suffix && <span className="text-sm text-foreground/55">{suffix}</span>}
       </div>
-      {hint && <p className="mt-1 text-xs text-black/45 dark:text-white/45">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </label>
   );
 }
@@ -57,7 +57,7 @@ function ResultRow({
 }) {
   return (
     <div className="flex items-baseline justify-between py-1.5">
-      <span className={emphasis ? "font-semibold" : "text-black/70 dark:text-white/70"}>
+      <span className={emphasis ? "font-semibold" : "text-foreground/75"}>
         {label}
       </span>
       <span className={emphasis ? "text-lg font-bold" : "tabular-nums"}>
@@ -87,7 +87,7 @@ export function SalaryCalculatorForm() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <div className="space-y-5 rounded-xl border border-black/10 p-6 dark:border-white/10">
+      <div className="space-y-5 rounded-2xl border border-border bg-card p-6">
         <NumberField
           label="연봉(세전)"
           value={annualSalaryMan}
@@ -123,16 +123,16 @@ export function SalaryCalculatorForm() {
         />
       </div>
 
-      <div className="rounded-xl border border-black/10 p-6 dark:border-white/10">
+      <div className="rounded-2xl border border-border bg-card p-6">
         <div className="mb-4 grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">월 실수령액</p>
+            <p className="text-sm text-foreground/55">월 실수령액</p>
             <p className="text-2xl font-bold sm:text-3xl">
               {formatWon(result.monthlyNetSalary)}
             </p>
           </div>
           <div>
-            <p className="text-sm text-black/50 dark:text-white/50">연 실수령액</p>
+            <p className="text-sm text-foreground/55">연 실수령액</p>
             <p className="text-2xl font-bold sm:text-3xl">
               {formatWon(result.annualNetSalary)}
             </p>
@@ -140,10 +140,10 @@ export function SalaryCalculatorForm() {
         </div>
 
         <details className="group" open>
-          <summary className="cursor-pointer select-none list-none rounded-lg bg-black/[.03] px-3 py-2 text-sm font-medium dark:bg-white/[.06]">
+          <summary className="cursor-pointer select-none list-none rounded-lg bg-primary-soft/50 px-3 py-2 text-sm font-medium">
             공제 내역 펼쳐보기
           </summary>
-          <div className="divide-y divide-black/5 px-1 pt-2 dark:divide-white/10">
+          <div className="divide-y divide-border px-1 pt-2">
             <ResultRow label="세전 월급" value={result.monthlyGrossSalary} emphasis />
             <ResultRow label="국민연금" value={result.insurance.nationalPension} negative />
             <ResultRow label="건강보험" value={result.insurance.healthInsurance} negative />
@@ -156,7 +156,7 @@ export function SalaryCalculatorForm() {
           </div>
         </details>
 
-        <p className="mt-4 text-xs leading-relaxed text-black/45 dark:text-white/45">
+        <p className="mt-4 text-xs leading-relaxed text-muted">
           이 계산기는 2026년 4대보험 요율과 국세청 근로소득 간이세액표를 근사한
           결과입니다. 실제 원천징수세액은 회사의 계산 방식에 따라 소폭 다를 수
           있습니다.
@@ -164,7 +164,7 @@ export function SalaryCalculatorForm() {
 
         <Link
           href="/calculators/severance"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-black/70 underline decoration-black/30 underline-offset-4 hover:text-black dark:text-white/70 dark:decoration-white/30 dark:hover:text-white"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground/75 underline decoration-primary/40 underline-offset-4 hover:text-primary"
         >
           이 연봉이면 퇴직금은 얼마일까요? →
         </Link>
