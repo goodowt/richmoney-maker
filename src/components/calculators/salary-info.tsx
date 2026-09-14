@@ -1,6 +1,7 @@
 import { INSURANCE_RATES_2026 } from "@/lib/calculators/rates";
 import { calculateSalary } from "@/lib/calculators/salary";
 import { formatWon } from "@/lib/format";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 const SAMPLE_ANNUAL_SALARIES_MAN = [
   2400, 2800, 3200, 3600, 4000, 4500, 5000, 5500, 6000, 7000, 8000, 10000,
@@ -173,6 +174,35 @@ export function SalaryInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "매달 같은 금액을 받는다고 가정하고(연봉÷12) 계산해요. 상여금·성과급처럼 달마다 금액이 달라지면 실제 원천징수액과 차이가 날 수 있어요.",
+          "소득세는 국세청 근로소득 간이세액표를 그대로 조회하지 않고, 근로소득공제·기본공제·연금보험료공제·특별소득공제를 직접 계산해 근사한 값이에요. 실제 원천징수세액과 월 1만~3만원 이내 차이가 날 수 있어요.",
+          "부양가족은 기본공제(1인당 150만원)만 반영하고, 경로우대·장애인 등 추가공제는 반영하지 않아요.",
+          "지방소득세는 소득세의 10%로 계산해요.",
+        ]}
+        legalBasis={[
+          "소득세법 제20조·제47조 — 근로소득 및 근로소득공제",
+          "소득세법 제55조 — 종합소득세율(8단계 누진세율)",
+          "소득세법 제59조 — 근로소득세액공제",
+          "소득세법 제59조의2 — 자녀세액공제",
+          "국민연금법·국민건강보험법·고용보험법 및 그 시행령 — 4대보험 요율·기준소득월액 상하한(연 1회 이상 변경 고시)",
+          "지방세법 제103조의13 — 지방소득세(소득세의 10%)",
+        ]}
+        verifyLinks={[
+          {
+            label: "국세청 홈택스(hometax.go.kr)",
+            url: "https://www.hometax.go.kr",
+            note: "근로소득 간이세액표로 내 조건에 맞는 원천징수세액을 직접 대조",
+          },
+          {
+            label: "4대사회보험 정보연계센터(4insure.or.kr)",
+            url: "https://www.4insure.or.kr",
+            note: "4대보험료 모의계산",
+          },
+        ]}
+      />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { UNEMPLOYMENT_BENEFIT_2026, PRESCRIBED_BENEFIT_DAYS } from "@/lib/calculators/rates";
 import { formatWon } from "@/lib/format";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 const PERIOD_LABELS = ["1년 미만", "1년~3년", "3년~5년", "5년~10년", "10년 이상"];
 
@@ -105,6 +106,33 @@ export function UnemploymentBenefitInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "1일 평균임금은 직접 입력한 값을 그대로 사용해요(퇴직 전 3개월 임금총액 ÷ 그 기간 총일수).",
+          "이 계산기는 예상 수급액만 추정하고, 실제 수급자격(이직 사유의 정당성 인정 여부 등)은 고용센터가 최종 판단해요.",
+        ]}
+        legalBasis={[
+          "고용보험법 제40조 — 구직급여 수급요건(피보험단위기간 180일 이상 등)",
+          "고용보험법 제45·46조 — 구직급여일액 산정(평균임금의 60%, 상하한액)",
+          "고용보험법 시행령 별표1 — 소정급여일수(연령·피보험기간별 120~270일)",
+        ]}
+        verifyLinks={[
+          {
+            label: "고용보험 홈페이지(ei.go.kr)",
+            url: "https://www.ei.go.kr",
+            note: "실업급여 모의계산으로 내 조건에 맞는 수급액을 직접 대조",
+          },
+          {
+            label: "워크넷(work.go.kr)",
+            url: "https://www.work.go.kr",
+          },
+          {
+            label: "관할 고용센터",
+            note: "수급자격 인정 여부는 방문·상담으로 최종 확인",
+          },
+        ]}
+      />
     </div>
   );
 }

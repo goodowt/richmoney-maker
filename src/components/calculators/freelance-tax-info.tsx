@@ -1,5 +1,6 @@
 import { calculateFreelanceTax } from "@/lib/calculators/freelance-tax";
 import { formatWon } from "@/lib/format";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 const SAMPLE_AMOUNTS = [300_000, 500_000, 1_000_000, 2_000_000, 3_000_000, 5_000_000, 10_000_000];
 
@@ -96,6 +97,29 @@ export function FreelanceTaxInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "원 단위 절사는 실무 관행을 따라 소득세·지방소득세 각각 원 미만을 버림 처리해요.",
+          "실수령액을 입력해 세전 계약금액을 역산할 때는, 절사 특성상 같은 실수령액이 나오는 세전금액이 여러 개일 수 있어 가장 자연스러운(근사값에 가까운) 금액을 선택해요.",
+        ]}
+        legalBasis={[
+          "소득세법 제129조 제1항 제2호 — 사업소득 원천징수세율 3%",
+          "지방세법 제103조의13 — 지방소득세(소득세의 10%)",
+          "소득세법 제70조 — 종합소득세 확정신고(다음 해 5월)",
+        ]}
+        verifyLinks={[
+          {
+            label: "국세청 홈택스(hometax.go.kr)",
+            url: "https://www.hometax.go.kr",
+            note: "원천징수영수증 조회, 종합소득세 신고",
+          },
+          {
+            label: "국세상담센터(국번없이 126)",
+            note: "원천징수·종합소득세 관련 상담",
+          },
+        ]}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { MINIMUM_WAGE_2026 } from "@/lib/calculators/rates";
 import { calculateMinimumWage } from "@/lib/calculators/minimum-wage";
 import { formatWon } from "@/lib/format";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 const SAMPLE_HOURLY_WAGES = [10_320, 11_000, 12_000, 13_000, 15_000, 18_000, 20_000, 25_000];
 
@@ -94,6 +95,32 @@ export function MinimumWageInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "월 환산 근로시간은 주휴시간을 포함해 계산해요(하루 8시간·주 5일이면 209시간).",
+          "1년은 365일 기준 평균 주 수(4.345주)로 월 환산해요.",
+        ]}
+        legalBasis={[
+          "최저임금법 제5조 및 고용노동부 고시 — 2026년 시간급 최저임금 10,320원",
+          "근로기준법 제55조 — 주휴수당(월 환산 근로시간 산정에 반영)",
+        ]}
+        verifyLinks={[
+          {
+            label: "고용노동부(moel.go.kr)",
+            url: "https://www.moel.go.kr",
+            note: "최저임금 고시 원문 확인",
+          },
+          {
+            label: "최저임금위원회(minimumwage.go.kr)",
+            url: "https://www.minimumwage.go.kr",
+          },
+          {
+            label: "고용노동부 고객상담센터(국번없이 1350)",
+            note: "최저임금 미달 등 신고·상담",
+          },
+        ]}
+      />
     </div>
   );
 }

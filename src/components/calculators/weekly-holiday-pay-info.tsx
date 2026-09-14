@@ -1,6 +1,7 @@
 import { MINIMUM_WAGE_2026 } from "@/lib/calculators/rates";
 import { calculateWeeklyHolidayPay } from "@/lib/calculators/weekly-holiday-pay";
 import { formatWon } from "@/lib/format";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 const SAMPLE_WEEKLY_HOURS = [15, 20, 25, 30, 35, 40];
 
@@ -123,6 +124,27 @@ export function WeeklyHolidayPayInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "그 주에 결근이 없었는지는 입력한 체크박스 값을 그대로 사용해요. 지각·조퇴가 개근 인정에 영향을 주는지는 회사 취업규칙에 따라 다를 수 있어요.",
+          "월 환산 금액은 1주치 주휴수당에 평균 주 수(4.345주)를 곱해 근사한 값이에요.",
+        ]}
+        legalBasis={[
+          "근로기준법 제55조 — 주휴일 및 주휴수당",
+          "근로기준법 시행령 제30조 — 개근 요건",
+        ]}
+        verifyLinks={[
+          {
+            label: "고용노동부(moel.go.kr)",
+            url: "https://www.moel.go.kr",
+          },
+          {
+            label: "고용노동부 고객상담센터(국번없이 1350)",
+            note: "주휴수당 미지급 등 신고·상담",
+          },
+        ]}
+      />
     </div>
   );
 }

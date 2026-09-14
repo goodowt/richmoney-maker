@@ -1,4 +1,5 @@
 import { calculateEntitledLeaveDays } from "@/lib/calculators/annual-leave";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 const SAMPLE_SERVICE_YEARS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 21];
 
@@ -108,6 +109,28 @@ export function AnnualLeaveInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "1일 통상임금은 입력한 월급을 월 소정근로시간(주휴시간 포함)으로 나눈 값이에요. 실제 통상임금에는 각종 수당의 포함·제외 여부를 따지는 세부 기준이 있어요.",
+          "근속기간은 입사일부터 기준일까지 달력 날짜로 계산해요(만 개월 기준, 휴직기간 등 제외 사유는 반영하지 않아요).",
+          "회사 내규로 법정 기준보다 연차를 더 주는 경우는 반영하지 않고, 근로기준법상 최소 기준만 계산해요.",
+        ]}
+        legalBasis={[
+          "근로기준법 제60조 — 연차유급휴가 발생 기준(1년 미만 월 1일, 1년 이상 15일+가산, 최대 25일)",
+          "근로기준법 제60조 제5항 — 연차수당(미사용 연차의 금전 보상)",
+        ]}
+        verifyLinks={[
+          {
+            label: "고용노동부(moel.go.kr)",
+            url: "https://www.moel.go.kr",
+          },
+          {
+            label: "고용노동부 고객상담센터(국번없이 1350)",
+            note: "연차 미사용수당 미지급 등 신고·상담",
+          },
+        ]}
+      />
     </div>
   );
 }

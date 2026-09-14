@@ -1,3 +1,5 @@
+import { TrustSection } from "@/components/calculators/trust-section";
+
 export function SeveranceInfoSections() {
   return (
     <div className="mt-10 space-y-10">
@@ -106,6 +108,35 @@ export function SeveranceInfoSections() {
           </table>
         </div>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "1일 평균임금은 직접 입력한 값을 그대로 사용해요. 상여금·연차수당 등을 포함한 정확한 평균임금 산정은 별도로 하지 않아요.",
+          "재직일수는 입사일부터 퇴사일까지 달력 날짜를 그대로 계산해요(수습기간·휴직기간 등 제외 사유는 반영하지 않아요).",
+          "퇴직소득세의 지방소득세는 산출세액의 10%로 계산해요.",
+        ]}
+        legalBasis={[
+          "근로자퇴직급여 보장법 제8조 — 퇴직금 산정(평균임금×30일×근속연수)",
+          "소득세법 제22조·제55조 — 퇴직소득 및 환산급여 방식 퇴직소득세 계산(2020년 이후 규정)",
+          "소득세법 시행령 제42조의2 등 — 근속연수공제·환산급여공제표",
+        ]}
+        verifyLinks={[
+          {
+            label: "국세청 홈택스(hometax.go.kr)",
+            url: "https://www.hometax.go.kr",
+            note: "퇴직소득세 자동계산으로 내 조건에 맞는 세액을 직접 대조",
+          },
+          {
+            label: "국가법령정보센터(law.go.kr)",
+            url: "https://www.law.go.kr",
+            note: "적용 법령 원문 확인",
+          },
+          {
+            label: "고용노동부 고객상담센터(국번없이 1350)",
+            note: "퇴직금 지급 관련 상담·신고",
+          },
+        ]}
+      />
     </div>
   );
 }

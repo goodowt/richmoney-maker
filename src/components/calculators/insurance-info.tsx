@@ -1,4 +1,5 @@
 import { COMPANY_SIZE_OPTIONS, INSURANCE_RATES_2026 } from "@/lib/calculators/rates";
+import { TrustSection } from "@/components/calculators/trust-section";
 
 export function InsuranceInfoSections() {
   const rates = INSURANCE_RATES_2026;
@@ -88,6 +89,35 @@ export function InsuranceInfoSections() {
           회사 규모와 상관없이 누구나 똑같아요.
         </p>
       </section>
+
+      <TrustSection
+        assumptions={[
+          "입력한 월 보수액을 국민연금·건강보험 산정 기준으로 그대로 사용해요. 실제로는 비과세소득 제외 등 세부 산정 규정이 있어요.",
+          "산재보험료는 업종별로 요율이 달라 이 계산기에는 포함하지 않았어요(전액 사업주 부담이라 근로자 실수령액에는 영향 없어요).",
+          "고용보험 사업주 부담분은 상시근로자 수 구간으로 근사했어요. 정확한 사업장 규모 판정은 근로복지공단 기준을 따라요.",
+        ]}
+        legalBasis={[
+          "국민연금법 제3조·제88조 — 보험료율 및 기준소득월액 상하한",
+          "국민건강보험법 제69조 — 건강보험료율",
+          "노인장기요양보험법 제9조 — 장기요양보험료(건강보험료 대비 비율)",
+          "고용보험법 제13조 및 시행령 — 고용보험료율(사업장 규모별)",
+        ]}
+        verifyLinks={[
+          {
+            label: "4대사회보험 정보연계센터(4insure.or.kr)",
+            url: "https://www.4insure.or.kr",
+            note: "4대보험료 모의계산으로 내 조건에 맞는 금액을 직접 대조",
+          },
+          {
+            label: "국민연금공단(nps.or.kr)",
+            url: "https://www.nps.or.kr",
+          },
+          {
+            label: "국민건강보험공단(nhis.or.kr)",
+            url: "https://www.nhis.or.kr",
+          },
+        ]}
+      />
     </div>
   );
 }
