@@ -15,7 +15,7 @@ export default function Home() {
         />
 
         <span className="relative inline-flex items-center gap-1.5 rounded-full bg-primary-soft px-4 py-1.5 text-sm font-semibold text-primary-hover">
-          <span aria-hidden>✨</span> 급여·노동 계산기 8종
+          <span aria-hidden>✨</span> 계산기 {tools.length}종
         </span>
 
         <h1 className="relative mt-5 text-3xl font-bold tracking-tight sm:text-4xl">
