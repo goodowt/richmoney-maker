@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { tools, siteConfig } from "@/lib/tools";
+
+// 예전 티스토리 주소(/?page=4 등)가 홈과 같은 내용으로 열려 중복 페이지로 잡히지 않도록 표준 주소를 지정합니다.
+export const metadata: Metadata = {
+  alternates: { canonical: siteConfig.url },
+};
 
 export default function Home() {
   return (
