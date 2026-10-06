@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { tools, siteConfig } from "@/lib/tools";
+import {
+  POPULAR_SALARY_AMOUNTS_MAN,
+  formatManLabel,
+  salaryAmountPath,
+} from "@/lib/calculators/salary-amounts";
 
 // 예전 티스토리 주소(/?page=4 등)가 홈과 같은 내용으로 열려 중복 페이지로 잡히지 않도록 표준 주소를 지정합니다.
 export const metadata: Metadata = {
@@ -70,6 +75,32 @@ export default function Home() {
             </p>
           </Link>
         ))}
+      </section>
+
+      <section aria-labelledby="salary-amounts-heading" className="mt-14">
+        <h2 id="salary-amounts-heading" className="text-xl font-bold">
+          연봉별 실수령액 바로 보기
+        </h2>
+        <p className="mt-2 text-sm text-muted">
+          내 연봉을 누르면 월 실수령액과 공제 내역을 바로 확인할 수 있어요.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {POPULAR_SALARY_AMOUNTS_MAN.map((man) => (
+            <Link
+              key={man}
+              href={salaryAmountPath(man)}
+              className="rounded-full bg-primary-soft/40 px-4 py-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-primary-soft"
+            >
+              연봉 {formatManLabel(man)}
+            </Link>
+          ))}
+          <Link
+            href="/calculators/salary/table"
+            className="rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground/70 transition-colors hover:border-primary hover:text-primary-hover"
+          >
+            전체 연봉 실수령액 표 →
+          </Link>
+        </div>
       </section>
     </div>
   );

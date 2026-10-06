@@ -68,8 +68,13 @@ function ResultRow({
   );
 }
 
-export function SalaryCalculatorForm() {
-  const [annualSalaryMan, setAnnualSalaryMan] = useState(4000);
+export function SalaryCalculatorForm({
+  initialAnnualSalaryMan = 4000,
+}: {
+  /** 금액별 페이지에서 해당 연봉을 미리 채워 넣을 때 사용(만원 단위) */
+  initialAnnualSalaryMan?: number;
+}) {
+  const [annualSalaryMan, setAnnualSalaryMan] = useState(initialAnnualSalaryMan);
   const [nonTaxableMan, setNonTaxableMan] = useState(20);
   const [dependents, setDependents] = useState(1);
   const [childrenUnder20, setChildrenUnder20] = useState(0);

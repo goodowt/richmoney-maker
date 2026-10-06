@@ -4,9 +4,14 @@ import { tools, type Tool } from "@/lib/tools";
 
 export function CalculatorShell({
   activeSlug,
+  title,
+  description,
   children,
 }: {
   activeSlug: Tool["slug"];
+  /** 계산기의 하위 페이지(금액별 페이지 등)에서 제목·설명을 바꿔 쓸 때만 넘깁니다. */
+  title?: string;
+  description?: string;
   children: ReactNode;
 }) {
   const active = tools.find((tool) => tool.slug === activeSlug)!;
@@ -34,8 +39,8 @@ export function CalculatorShell({
       </nav>
 
       <header className="mb-8">
-        <h1 className="text-2xl font-bold sm:text-3xl">{active.title}</h1>
-        <p className="mt-2 text-foreground/60">{active.description}</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">{title ?? active.title}</h1>
+        <p className="mt-2 text-foreground/60">{description ?? active.description}</p>
       </header>
 
       {children}

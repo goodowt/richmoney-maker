@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { tools, siteConfig } from "@/lib/tools";
+import { SALARY_AMOUNTS_MAN, salaryAmountPath } from "@/lib/calculators/salary-amounts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -19,5 +20,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  return [...staticPages, ...calculatorPages];
+  const salaryAmountPages: MetadataRoute.Sitemap = [
+    {
+      url: `${siteConfig.url}/calculators/salary/table`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...SALARY_AMOUNTS_MAN.map((man) => ({
+      url: `${siteConfig.url}${salaryAmountPath(man)}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ];
+
+  return [...staticPages, ...calculatorPages, ...salaryAmountPages];
 }
