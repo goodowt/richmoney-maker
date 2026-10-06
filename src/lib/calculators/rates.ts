@@ -108,15 +108,13 @@ export const COMPANY_SIZE_OPTIONS: { value: CompanySize; label: string }[] = [
 ];
 
 /**
- * 근로소득 간이세액표 근사 계산에 쓰이는 소득세법 상수.
+ * 근로소득세 계산(간이세액표·연말정산)에 공통으로 쓰이는 소득세법 상수.
  * (근로소득공제·인적공제·세율표·근로소득세액공제는 매년 바뀌지 않는 편이라
  *  4대보험 요율보다는 변경 빈도가 낮습니다.)
  */
 export const INCOME_TAX_CONSTANTS = {
   /** 기본공제: 부양가족 1인(본인 포함)당 연 150만원 */
   basicDeductionPerDependent: 1_500_000,
-  /** 특별세액공제를 신청하지 않았다고 가정할 때 적용되는 표준세액공제(연) */
-  standardTaxCredit: 130_000,
   /** 지방소득세 = 소득세의 10% */
   localTaxRate: 0.1,
 } as const;
@@ -180,20 +178,89 @@ export const LABOR_INCOME_TAX_CREDIT_LIMITS = [
 ] as const;
 
 /**
- * 8세~20세 자녀 세액공제(월 간이세액표 기준 직접 차감액).
- * PLAN 요구사항에 맞춰 "20세 이하 자녀 수"를 그대로 입력받아 적용합니다.
+ * 근로소득 간이세액표(소득세법 시행령 별표2, 2026. 2. 27. 개정)를 계산식으로 재현하는 데
+ * 쓰는 기준값. 출처: 국가법령정보센터 별표2 원문(2026-10-06 확인).
+ *
+ * 별표2 제1호는 표의 세액이 "근로소득공제, 기본공제, 특별소득공제 및 특별세액공제 중 일부,
+ * 연금보험료공제, 근로소득세액공제와 해당 세율을 반영하여 계산한 금액"이라고만 밝히고,
+ * 그중 "특별소득공제 및 특별세액공제 중 일부"의 계산식과 월급여 1,000만원 초과 구간의
+ * 산식만 직접 적어 두었습니다(아래 specialDeduction, highIncomeBrackets).
+ *
+ * 나머지 세 값(연금보험료공제의 기준소득월액 상한, 근로소득세액공제 공제율 구간과 한도,
+ * 1,000원 미만 세액 처리)은 법령에 숫자로 적혀 있지 않아 표를 역산해 찾은 값입니다.
+ * 현행 소득세법·국민연금 기준과 다르지만(표가 예전 기준 그대로 유지되고 있음), 이 값으로
+ * 계산해야 별표2의 646개 급여구간 × 가족 수 1~11명 = 7,106칸이 모두 원 단위까지 일치합니다.
+ * 그래서 연말정산용 상수(LABOR_INCOME_TAX_CREDIT_LIMITS 등)와 섞어 쓰면 안 됩니다.
+ */
+export const SIMPLIFIED_TAX_TABLE_2026 = {
+  /** 표의 월급여 구간 폭: 150만원 미만 5천원, 300만원 미만 1만원, 1,000만원 미만 2만원 */
+  bracketSteps: [
+    { under: 1_500_000, step: 5_000 },
+    { under: 3_000_000, step: 10_000 },
+    { under: 10_000_000, step: 20_000 },
+  ],
+  /** 표의 마지막 행(1,000만원). 이보다 많으면 highIncomeBrackets 산식을 씁니다. */
+  maxTableSalary: 10_000_000,
+  /** 연금보험료공제: 기준소득월액(천원 미만 절사, 상한 449만원) × 4.5%(10원 미만 절사) × 12 */
+  pension: { rate: 0.045, maxMonthlyBase: 4_490_000 },
+  /**
+   * 특별소득공제 및 특별세액공제 중 일부(별표2 제1호): base + 연간 총급여 × rate.
+   * rates는 총급여 3,000만원 이하 / 4,500만원 이하 / 7,000만원 이하 / 그 초과 구간 순서이고,
+   * 3,000만원 초과 4,500만원 이하 구간은 3,000만원 초과분의 5%를 추가로 뺍니다.
+   * 가족 3명 이상은 4,000만원 초과분의 4%를 더합니다(extraOver·extraRate).
+   */
+  specialDeduction: {
+    grossThresholds: [30_000_000, 45_000_000, 70_000_000],
+    phaseOutRate: 0.05,
+    byDependents: [
+      { maxDependents: 1, base: 3_100_000, rates: [0.04, 0.04, 0.015, 0.005], extraOver: Infinity, extraRate: 0 },
+      { maxDependents: 2, base: 3_600_000, rates: [0.04, 0.04, 0.02, 0.01], extraOver: Infinity, extraRate: 0 },
+      { maxDependents: Infinity, base: 5_000_000, rates: [0.07, 0.07, 0.05, 0.03], extraOver: 40_000_000, extraRate: 0.04 },
+    ],
+  },
+  /** 근로소득세액공제: 산출세액 50만원 이하 55%, 초과분 30% */
+  laborIncomeTaxCredit: { threshold: 500_000, lowRate: 0.55, highRate: 0.3 },
+  /** 근로소득세액공제 한도(연간 총급여 기준) */
+  laborIncomeTaxCreditLimits: [
+    { upTo: 55_000_000, calc: () => 660_000 },
+    { upTo: 70_000_000, calc: () => 630_000 },
+    { upTo: Infinity, calc: (gross: number) => Math.max(630_000 - (gross - 70_000_000) * 0.5, 500_000) },
+  ],
+  /** 계산한 월 세액이 이 금액 미만이면 표에는 0원(-)으로 적혀 있습니다. */
+  minimumTax: 1_000,
+  /**
+   * 월급여 1,000만원 초과 구간(별표2 제6호 표 아래 산식):
+   * 1,000만원일 때의 세액 + add + (월급여 - over) × factor × rate
+   */
+  highIncomeBrackets: [
+    { upTo: 14_000_000, over: 10_000_000, add: 25_000, factor: 0.98, rate: 0.35 },
+    { upTo: 28_000_000, over: 14_000_000, add: 1_397_000, factor: 0.98, rate: 0.38 },
+    { upTo: 30_000_000, over: 28_000_000, add: 6_610_600, factor: 0.98, rate: 0.4 },
+    { upTo: 45_000_000, over: 30_000_000, add: 7_394_600, factor: 1, rate: 0.4 },
+    { upTo: 87_000_000, over: 45_000_000, add: 13_394_600, factor: 1, rate: 0.42 },
+    { upTo: Infinity, over: 87_000_000, add: 31_034_600, factor: 1, rate: 0.45 },
+  ],
+  /** 표에 실린 공제대상가족 수의 최대치. 이보다 많으면 별표2 제4호 방식으로 계산합니다. */
+  maxTableDependents: 11,
+} as const;
+
+/**
+ * 8세 이상 20세 이하 자녀 세액공제(별표2 제3호 — 간이세액표 세액에서 직접 빼는 월 금액).
+ * 2026. 2. 27. 개정으로 2026. 3. 1. 이후 지급분부터 1명 20,830원, 2명 45,830원,
+ * 3명째부터 1명당 33,330원으로 올랐습니다(개정 전: 12,500원 / 29,160원 / 25,000원).
  */
 export function monthlyChildTaxCredit(childCount: number): number {
-  if (childCount <= 0) return 0;
-  if (childCount === 1) return 12_500;
-  if (childCount === 2) return 29_160;
-  return 29_160 + (childCount - 2) * 25_000;
+  const n = Math.max(0, Math.floor(childCount));
+  if (n === 0) return 0;
+  if (n === 1) return 20_830;
+  if (n === 2) return 45_830;
+  return 45_830 + (n - 2) * 33_330;
 }
 
 /**
  * 연말정산 자녀세액공제(연간 확정 금액, 소득세법 제59조의2, 2024년 개정 상향분 반영).
- * 8세 이상 기본공제대상 자녀 수 기준으로, 월 간이세액표에서 쓰는 monthlyChildTaxCredit과는
- * 금액 체계가 달라 별도 상수로 둡니다(연말정산은 실제 연간 확정치를 그대로 적용).
+ * 8세 이상 기본공제대상 자녀 수 기준입니다. 월 간이세액표에서 쓰는 monthlyChildTaxCredit은
+ * 이 금액을 12로 나눠 10원 미만을 버린 값이라 별도 함수로 둡니다.
  * 1명 25만원, 2명 55만원, 3명째부터 1인당 40만원씩 가산.
  */
 export function annualChildTaxCredit(childCount: number): number {

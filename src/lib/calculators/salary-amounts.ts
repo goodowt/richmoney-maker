@@ -14,9 +14,8 @@ function range(from: number, to: number, step: number): number[] {
  * 금액별 실수령액 페이지(/calculators/salary/[amount])를 만드는 연봉 목록(만원 단위).
  * 이 목록이 곧 정적 생성 대상·사이트맵·실수령액 표의 행이 됩니다.
  *
- * 1억원 초과는 일부러 넣지 않았습니다. 월급여 1,000만원 초과 구간은 간이세액표가 별도
- * 산식을 쓰는데 salary.ts의 근사식은 이를 반영하지 않아, 타 사이트 표와 대조했을 때
- * 1억원까지는 월 3만원 안팎이던 차이가 1억 2,000만원에서 월 7만원대로 벌어집니다.
+ * 지금은 1억원까지만 넣어 두었습니다. salary.ts가 월급여 1,000만원 초과 구간의 간이세액표
+ * 산식까지 반영하므로(2026-10-06 보정), 1억원 초과 금액을 추가해도 계산은 정확합니다.
  */
 export const SALARY_AMOUNTS_MAN: number[] = range(2400, 10_000, 100);
 
@@ -107,7 +106,7 @@ export function buildSalaryAmountFaq(man: number): FaqItem[] {
     },
     {
       question: `부양가족이 있으면 연봉 ${label}의 실수령액이 달라지나요?`,
-      answer: `네. 부양가족이 많을수록 소득세가 줄어 실수령액이 늘어납니다. 예를 들어 부양가족 3명(20세 이하 자녀 1명 포함)이면 월 실수령액은 약 ${formatWon(withFamily.monthlyNetSalary)}으로, 본인 1명일 때보다 약 ${formatWon(withFamily.monthlyNetSalary - result.monthlyNetSalary)} 많습니다. 4대보험료는 부양가족 수와 상관없이 같습니다.`,
+      answer: `네. 부양가족이 많을수록 소득세가 줄어 실수령액이 늘어납니다. 예를 들어 부양가족 3명(8~20세 자녀 1명 포함)이면 월 실수령액은 약 ${formatWon(withFamily.monthlyNetSalary)}으로, 본인 1명일 때보다 약 ${formatWon(withFamily.monthlyNetSalary - result.monthlyNetSalary)} 많습니다. 4대보험료는 부양가족 수와 상관없이 같습니다.`,
     },
   ];
 }

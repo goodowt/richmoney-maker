@@ -16,8 +16,8 @@ const linkClass = "underline decoration-primary/40 underline-offset-4 hover:text
 const FAMILY_SCENARIOS = [
   { label: "1명 (본인만)", dependents: 1, childrenUnder20: 0 },
   { label: "2명", dependents: 2, childrenUnder20: 0 },
-  { label: "3명 (20세 이하 자녀 1명 포함)", dependents: 3, childrenUnder20: 1 },
-  { label: "4명 (20세 이하 자녀 2명 포함)", dependents: 4, childrenUnder20: 2 },
+  { label: "3명 (8~20세 자녀 1명 포함)", dependents: 3, childrenUnder20: 1 },
+  { label: "4명 (8~20세 자녀 2명 포함)", dependents: 4, childrenUnder20: 2 },
 ];
 
 function formatPercent(ratio: number): string {
@@ -106,7 +106,7 @@ export function SalaryAmountSummary({ man }: { man: number }) {
           </table>
         </div>
         <p className="mt-2 text-xs text-muted">
-          2026년 4대보험 요율 기준, 비과세 식대 월 20만원·부양가족 1명(본인)·20세 이하 자녀 0명일 때의
+          2026년 4대보험 요율 기준, 비과세 식대 월 20만원·부양가족 1명(본인)·8~20세 자녀 0명일 때의
           계산이에요.
         </p>
       </section>

@@ -119,7 +119,8 @@ export function SalaryCalculatorForm({
           suffix="명"
         />
         <NumberField
-          label="20세 이하 자녀 수"
+          label="8세 이상 20세 이하 자녀 수"
+          hint="7세 이하 자녀는 부양가족 수에만 포함해요."
           value={childrenUnder20}
           onChange={(v) => setChildrenUnder20(Math.round(v))}
           min={0}
@@ -162,9 +163,9 @@ export function SalaryCalculatorForm({
         </details>
 
         <p className="mt-4 text-xs leading-relaxed text-muted">
-          이 계산기는 2026년 4대보험 요율과 국세청 근로소득 간이세액표를 근사한
-          결과입니다. 실제 원천징수세액은 회사의 계산 방식에 따라 소폭 다를 수
-          있습니다.
+          이 계산기는 2026년 4대보험 요율과 국세청 근로소득 간이세액표(2026년 2월
+          개정)를 기준으로 계산합니다. 상여금이 있는 달이거나 원천징수 비율을 따로
+          선택한 경우에는 실제 급여명세서와 다를 수 있습니다.
         </p>
 
         <Link
